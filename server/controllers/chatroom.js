@@ -1,4 +1,5 @@
 const Chatroom = require("../models/Chatroom");
+const { getUserRooms } = require("../helpers");
 
 module.exports.createChatroom = async (req, res) => {
   const { name, owner } = req.body;
@@ -23,5 +24,11 @@ module.exports.getAllChatrooms = async (req, res) => {
     },
   ]);
 
+  return res.status(200).json({ chatrooms });
+};
+
+module.exports.getUserChatrooms = async (req, res) => {
+  const { owner } = req.body;
+  const chatrooms = await getUserRooms(owner);
   return res.status(200).json({ chatrooms });
 };

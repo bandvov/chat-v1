@@ -42,3 +42,8 @@ module.exports.addUserToRoom = async ({ chatroomId, user }) => {
   }
   return { isMember };
 };
+
+module.exports.getUserRooms = async (userId) => {
+  const chatrooms = await Chatroom.find({ members: { $in: [userId] } });
+  return chatrooms;
+};

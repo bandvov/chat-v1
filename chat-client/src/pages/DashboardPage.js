@@ -137,70 +137,76 @@ function DashboardPage({ socket }) {
     setRoomName("");
     setVisible(false);
   };
-  console.log('rooms',chatrooms);
-  const mappedList = chatrooms?.map((listItem) => {
-    const description =
-      listItem &&
-      listItem.messages &&
-      listItem.messages[listItem.messages.length - 1]?.text.length > 25
-        ? listItem.messages[listItem.messages.length - 1]?.text.slice(0, 25) +
-          "..."
-        : listItem.messages[listItem.messages.length - 1]?.text;
+  const mappedList =
+    chatrooms &&
+    chatrooms.map((listItem) => {
+      let description = "";
+      if (listItem.messages) {
+        description =
+          listItem?.messages[listItem?.messages.length - 1]?.text.length > 25
+            ? listItem?.messages[listItem?.messages.length - 1]?.text.slice(
+                0,
+                25
+              ) + "..."
+            : listItem?.messages[listItem?.messages.length - 1]?.text;
+      }
 
-    return (
-      <Card
-        key={listItem._id}
-        style={{
-          marginTop: 16,
-          border: "1px solid blue",
-          backgroundColor:
-            activeRoomId === listItem._id ? "rgba(0,0,0,0.06)" : "",
-        }}
-        onClick={() => {
-          if (activeRoomId === listItem._id) return;
-          setPreviousRoomId(activeRoomId);
-          setActiveRoomId(listItem._id);
-          setMessages(listItem.messages);
-          setActiveRoomName(listItem.name);
-        }}
-      >
-        <Meta
-          style={{ overflow: "elipsis" }}
-          avatar={
-            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-          }
-          title={listItem.name}
-        />
-        {description}
-      </Card>
-    );
-  });
-
-  const mappedMessages = messages.map((message, index) => {
-    return (
-      <div
-        key={index}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginLeft: "1rem",
-        }}
-      >
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+      return (
         <Card
+          key={listItem._id}
           style={{
-            margin: 16,
+            marginTop: 16,
             border: "1px solid blue",
-            borderRadius: "15px 16px 15px 0",
-            backgroundColor: message.user === userId ? "" : "lightblue",
+            backgroundColor:
+              activeRoomId === listItem._id ? "rgba(0,0,0,0.06)" : "",
+          }}
+          onClick={() => {
+            if (activeRoomId === listItem._id) return;
+            setPreviousRoomId(activeRoomId);
+            setActiveRoomId(listItem._id);
+            setMessages(listItem.messages);
+            setActiveRoomName(listItem.name);
           }}
         >
-          <Meta description={message.text} />
-          {`number ${index + 1}`}
+          <Meta
+            style={{ overflow: "elipsis" }}
+            avatar={
+              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            }
+            title={listItem.name}
+          />
+          {description}
         </Card>
-      </div>
-    );
-  });
+      );
+    });
+
+  const mappedMessages =
+    messages &&
+    messages.map((message, index) => {
+      return (
+        <div
+          key={index}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "1rem",
+          }}
+        >
+          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <Card
+            style={{
+              margin: 16,
+              border: "1px solid blue",
+              borderRadius: "15px 16px 15px 0",
+              backgroundColor: message.user === userId ? "" : "lightblue",
+            }}
+          >
+            <Meta description={message.text} />
+            {`number ${index + 1}`}
+          </Card>
+        </div>
+      );
+    });
 
   return token ? (
     <div
