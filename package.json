@@ -17,8 +17,12 @@
     "MERN"
   ],
   "scripts": {
+    "install-c": "cd client && yarn install",
+    "install-s": "cd server && yarn install",
+    "install": "yarn install-c && yarn install-s",
     "up": "docker-compose up",
-    "down": "docker-compose down"
+    "down": "docker-compose down",
+    "start": "cd server && yarn start && cd client && yarn start"
   },
   "license": "ISC"
 }
