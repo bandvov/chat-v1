@@ -38,9 +38,9 @@ networks:
     driver: bridge
 volumes:
   mongo-data:
-    driver: local      
-  chat-client:
-    name: chat-client
+    driver: local
+  client:
+    name: client
   server:
     name: server
  
