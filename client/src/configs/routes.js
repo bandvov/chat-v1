@@ -4,4 +4,4 @@ export const ROUTES = {
   dashboard: "/",
 };
 
-export const PATH = "http://localhost:5000";
+export const PATH = "https://chat-vv1.herokuapp.com";
