@@ -19,7 +19,7 @@
   "scripts": {
     "up": "docker-compose up",
     "down": "docker-compose down",
-    "start": "cd server && yarn start -p $PORT"
+    "start": "docker-compose up"
   },
   "license": "ISC"
 }
