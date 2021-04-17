@@ -32,11 +32,12 @@ const userSchema = new mongoose.Schema(
     ],
 
     createDate: {
-    type: Date,
-    default:  Date.now(),
+      type: Date,
+      default: Date.now(),
     },
-    
+
     avatar: String,
+    active: { type: Boolean, default: true },
   },
   { timestamp: true }
 );

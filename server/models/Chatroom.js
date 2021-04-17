@@ -16,13 +16,16 @@ const chatroomSchema = new mongoose.Schema({
     ref: "User",
   },
   modifyTime: {
-    type:  Date,
-    default: Date.now()
+    type: Date,
+    default: Date.now(),
   },
-  createTime:{
-    type:  Date,
-    default: Date.now()
-  } 
+  createTime: {
+    type: Date,
+    default: Date.now(),
+  },
+  type: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Chatroom", chatroomSchema, "Chatroom");
