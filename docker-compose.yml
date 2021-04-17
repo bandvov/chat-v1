@@ -5,9 +5,7 @@ services:
     container_name: client
     restart: always
     build:
-      context: ./chat-client
-    env_file:
-      - ./chat-client/.env
+      context: ./client
     ports:
       - "3000:3000"
     depends_on:
@@ -40,9 +38,9 @@ networks:
     driver: bridge
 volumes:
   mongo-data:
-    driver: local      
-  chat-client:
-    name: chat-client
+    driver: local
+  client:
+    name: client
   server:
     name: server
  
