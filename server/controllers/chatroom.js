@@ -14,6 +14,19 @@ module.exports.createChatroom = async (req, res) => {
 module.exports.getAllChatrooms = async (req, res) => {
   const chatrooms = await Chatroom.aggregate([
     {
+      $match: {
+        $or: [
+          {
+            type: "group",
+          },
+          {
+            type: "private",
+            members: { $in: [req.body.owner] },
+          },
+        ],
+      },
+    },
+    {
       $lookup: {
         from: "Message",
         localField: "_id",
