@@ -18,8 +18,7 @@
   ],
   "scripts": {
     "up": "docker-compose up",
-    "down": "docker-compose down",
-    "start": "up"
+    "down": "docker-compose down"
   },
   "license": "ISC"
 }
