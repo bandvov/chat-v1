@@ -1,16 +1,17 @@
 const express = require("express");
-const cors = require('cors')
+const cors = require("cors");
 const {
   notFound,
   mongooseError,
   productionError,
 } = require("./handlers/errorHandlers");
-
+const path = require("path");
 const app = express();
 
-app.use(cors({origin:'*'}));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname + "public")));
 
 // setup routes
 app.use(require("./routes/chatroom"));
