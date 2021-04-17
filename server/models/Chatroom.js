@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const chatroomSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: "Name is required",
-    unique: true,
+    unique: false,
   },
   members: [
     {
@@ -25,6 +24,8 @@ const chatroomSchema = new mongoose.Schema({
   },
   type: {
     type: String,
+    enum: ["group", "private"],
+    default: "group",
   },
 });
 
