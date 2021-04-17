@@ -1,6 +1,6 @@
 FROM node:latest
 
-WORKDIR /chat-client
+WORKDIR /client
 
 COPY package.json .
 

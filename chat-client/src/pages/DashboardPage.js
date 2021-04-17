@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Redirect } from "react-router";
 import axios from "axios";
 import { MoreOutlined, SendOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import Avatar from "antd/lib/avatar/avatar";
 import Meta from "antd/lib/card/Meta";
 import Search from "antd/lib/input/Search";
 import { ROUTES, PATH } from "../configs/routes";
+import Message from "../components/message";
 
 const userId = localStorage.getItem("userId");
 const token = localStorage.getItem("token");
@@ -21,6 +22,14 @@ function DashboardPage({ socket }) {
   const [previosRoomId, setPreviousRoomId] = useState("");
   const [messageToSend, setMessageToSend] = useState("");
   const [messages, setMessages] = useState([]);
+  const [top, setTop] = useState(0);
+  const [ownerId, setOwnerId] = useState("");
+
+  const refContainer = useRef();
+
+  const onScroll = () => {
+    setTop(refContainer.current.scrollTop);
+  };
 
   const sendMessage = () => {
     if (socket) {
@@ -196,13 +205,14 @@ function DashboardPage({ socket }) {
           margin: "1rem 1rem 0",
           border: "1px solid blue",
           backgroundColor: isActiveRoom ? "rgba(0,0,0,0.06)" : "",
-          borderLeft: isActiveRoom ? "3px solid blue" : "",
+          borderLeft: isActiveRoom ? "3px solid blue" : "1px solid blue",
         }}
         onClick={() => {
           if (isActiveRoom) return;
           setPreviousRoomId(activeRoomId);
           setActiveRoomId(listItem._id);
           setMessages(listItem.messages);
+          setOwnerId(listItem.owner);
           setActiveRoomName(listItem.name);
         }}
       >
@@ -220,27 +230,7 @@ function DashboardPage({ socket }) {
 
   const mappedMessages = messages.map((message, index) => {
     return (
-      <div
-        key={index}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginLeft: "1rem",
-        }}
-      >
-        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        <Card
-          style={{
-            margin: 16,
-            border: "1px solid blue",
-            borderRadius: "15px 16px 15px 0",
-            backgroundColor: message.user === userId ? "" : "lightblue",
-          }}
-        >
-          <Meta description={message.text} />
-          {`number ${index + 1}`}
-        </Card>
-      </div>
+      <Message key={index + 1} top={top} userId={userId} message={message} />
     );
   });
 
@@ -270,7 +260,7 @@ function DashboardPage({ socket }) {
           >
             Create room
           </Button>
-          {activeRoomId && (
+          {activeRoomId && ownerId === userId && (
             <Button onClick={() => deleteRoomHandler()} type="primary">
               Delete room
             </Button>
@@ -368,7 +358,11 @@ function DashboardPage({ socket }) {
               ></div>
             </div>
           </div>
-          <div style={{ overflow: "auto", height: "60vh" }}>
+          <div
+            onScroll={onScroll}
+            ref={refContainer}
+            style={{ overflow: "auto", height: "60vh" }}
+          >
             <div>{mappedMessages}</div>
           </div>
           {activeRoomId && (

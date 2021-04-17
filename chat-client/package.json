@@ -1,5 +1,5 @@
 {
-  "name": "chat-client",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +15,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "socket.io-client": "^4.0.0",
-    "sweetalert2": "^10.15.7",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
