@@ -24,13 +24,6 @@ const userSchema = new mongoose.Schema(
       },
     ],
 
-    chatrooms: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Chatroom",
-      },
-    ],
-
     createDate: {
       type: Date,
       default: Date.now(),

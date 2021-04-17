@@ -4,7 +4,7 @@ require("dotenv").config({});
 const server = require("http").createServer(app);
 const jwt = require("jsonwebtoken");
 const PORT = process.env.PORT || 3000;
-const { saveMessage, addUserToRoom } = require("./helpers");
+const { saveMessage, addUserToRoom, addContact } = require("./helpers");
 
 const io = require("socket.io")(server, {
   cors: {
@@ -18,7 +18,6 @@ mongoose.connect(
   {
     useUnifiedTopology: true,
     useFindAndModify: false,
-    useCreateIndex: true,
     useNewUrlParser: true,
   },
   (err) => {
@@ -82,6 +81,18 @@ io.on("connect", (socket) => {
   });
   socket.on("roomDeleted", () => {
     io.emit("roomDeleted");
+  });
+  socket.on("addContact", async ({ contact }, callback) => {
+    const { chatroom, error } = await addContact({
+      user: socket.userId,
+      contact,
+    });
+    if (error) {
+      return callback(error);
+    }
+    if (chatroom) {
+      io.emit("newRoomCreated");
+    }
   });
 });
 

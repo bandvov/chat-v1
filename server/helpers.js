@@ -1,5 +1,6 @@
 const Message = require("./models/Message");
 const Chatroom = require("./models/Chatroom");
+const User = require("./models/User");
 
 // save message to database
 module.exports.saveMessage = async ({ user, chatroom, text }) => {
@@ -43,4 +44,28 @@ module.exports.addUserToRoom = async ({ chatroomId, user }) => {
     }
   );
   return { isMember: isMember.length ? true : false };
+};
+
+module.exports.addContact = async ({ user, contact }) => {
+  const checkUserContact = await User.find({
+    _id: user,
+    contacts: { $in: [contact] },
+  });
+  if (checkUserContact.length) {
+    return { error: "Contact already added" };
+  }
+  const chatroom = new Chatroom({
+    members: [user, contact],
+    type: "private",
+  });
+  await User.findByIdAndUpdate(
+    { _id: user },
+    { $addToSet: { contacts: contact } }
+  );
+  await User.findByIdAndUpdate(
+    { _id: contact },
+    { $addToSet: { contacts: user } }
+  );
+  await chatroom.save();
+  return { chatroom };
 };

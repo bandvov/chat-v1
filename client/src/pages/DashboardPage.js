@@ -71,7 +71,6 @@ function DashboardPage({ socket }) {
   };
   const deleteRoomHandler = async () => {
     if (activeRoomId) {
-      console.log("here");
       await axios
         .delete(PATH + "/delete-room", {
           headers: {
@@ -111,6 +110,9 @@ function DashboardPage({ socket }) {
     if (socket) {
       socket.on("newMessage", (data) => {
         setMessages((messages) => [...messages, data]);
+      });
+      socket.on("newRoomCreated", () => {
+        getChatrooms();
       });
     }
   }, [socket]);
@@ -153,9 +155,7 @@ function DashboardPage({ socket }) {
       .then((res) => {
         setRoomName("");
         socket.emit("newRoomCreated");
-        socket.on("newRoomCreated", () => {
-          getChatrooms();
-        });
+
         notification.success({ message: res.data.message });
       })
       .catch((e) => {
@@ -221,7 +221,9 @@ function DashboardPage({ socket }) {
           avatar={
             <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
           }
-          title={listItem.name}
+          title={
+            listItem.name ? listItem.name + " " + listItem.type : listItem.type
+          }
         />
         {description}
       </Card>
@@ -233,6 +235,19 @@ function DashboardPage({ socket }) {
       <Message key={index + 1} top={top} userId={userId} message={message} />
     );
   });
+
+  const addContactHandler = () => {
+    socket.emit(
+      "addContact",
+      { contact: "607ad1315b11200fd05b1ed8" },
+      (error) => {
+        if (error) {
+          notification.error({ message: error });
+          throw error;
+        }
+      }
+    );
+  };
 
   return token ? (
     <div
@@ -261,10 +276,17 @@ function DashboardPage({ socket }) {
             Create room
           </Button>
           {activeRoomId && ownerId === userId && (
-            <Button onClick={() => deleteRoomHandler()} type="primary">
+            <Button
+              style={{ margin: "0 1rem 0 0" }}
+              onClick={() => deleteRoomHandler()}
+              type="primary"
+            >
               Delete room
             </Button>
           )}
+          <Button onClick={() => addContactHandler()} type="primary">
+            Add contact
+          </Button>
         </div>
         <div
           style={{
