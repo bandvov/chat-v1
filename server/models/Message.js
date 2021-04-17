@@ -13,6 +13,21 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: "Message is required",
     },
+    edited: {
+      type: Boolean,
+      default: false,
+    },
+    createTime: {
+      type: Date,
+      default: Date.now(),
+    },
+    modifyTime: {
+      type: Date,
+      default: null,
+    },
+    readBy: {
+      type: String,
+    },
   },
   { timestamp: true }
 );

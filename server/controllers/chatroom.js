@@ -21,6 +21,9 @@ module.exports.getAllChatrooms = async (req, res) => {
         as: "messages",
       },
     },
+    {
+      $addFields: { newestMessage: { $last: "$messages" } },
+    },
   ]);
 
   return res.status(200).json({ chatrooms });
