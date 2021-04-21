@@ -22,7 +22,10 @@
     "install": "yarn install-c && yarn install-s",
     "up": "docker-compose up",
     "down": "docker-compose down",
-    "start": "cd server && yarn start && cd client && yarn start"
+    "start-c": "cd client && yarn start",
+    "start-s": "cd server && yarn start",
+    "start": "yarn start-c",
+    "postinstall": "yarn start-s"
   },
   "license": "ISC"
 }
