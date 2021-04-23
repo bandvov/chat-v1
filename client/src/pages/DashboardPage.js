@@ -24,7 +24,7 @@ function DashboardPage({ socket }) {
   const [messages, setMessages] = useState([]);
   const [top, setTop] = useState(0);
   const [ownerId, setOwnerId] = useState("");
-
+  console.log(chatrooms);
   const refContainer = useRef();
 
   const onScroll = () => {

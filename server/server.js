@@ -4,7 +4,12 @@ require("dotenv").config({});
 const server = require("http").createServer(app);
 const jwt = require("jsonwebtoken");
 const PORT = process.env.PORT || 3000;
-const { saveMessage, addUserToRoom, addContact } = require("./helpers");
+const {
+  saveMessage,
+  addUserToRoom,
+  addContact,
+  isMember,
+} = require("./helpers");
 
 const io = require("socket.io")(server, {
   cors: {
@@ -43,7 +48,8 @@ io.on("connect", (socket) => {
   // event with sending error
   socket.on("joinRoom", async ({ userName, chatroomId }, callback) => {
     const user = socket.userId;
-    const { isMember, error } = await addUserToRoom({
+    const isMember = checkIsMember(chatroomId, socket.userId);
+    const { error } = await addUserToRoom({
       chatroomId,
       user,
     });
@@ -51,8 +57,8 @@ io.on("connect", (socket) => {
       callback(error);
     }
 
-    socket.join(chatroomId);
     if (!isMember) {
+      socket.join(chatroomId);
       socket.emit("newMessage", { text: "Welcome " + userName });
       io.to(chatroomId).emit("newMessage", {
         text: userName + " joined the room " + chatroomId,
@@ -93,6 +99,12 @@ io.on("connect", (socket) => {
     if (chatroom) {
       io.emit("newRoomCreated");
     }
+  });
+  socket.on("joinRoom", ({ chatroomId }) => {
+    socket.join(chatroomId);
+  });
+  socket.on("leaveRoom", ({ chatroomId }) => {
+    socket.leave(chatroomId);
   });
 });
 
