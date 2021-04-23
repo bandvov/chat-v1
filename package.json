@@ -25,7 +25,7 @@
     "start-c": "cd client && yarn start",
     "start-s": "cd server && yarn start",
     "start": "yarn start-c",
-    "postinstall": "yarn start-s"
+    "postinstall": "yarn start-s && yarn start-c"
   },
   "license": "ISC"
 }
