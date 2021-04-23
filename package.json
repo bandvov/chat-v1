@@ -17,15 +17,15 @@
     "MERN"
   ],
   "scripts": {
-    "install-c": "cd client && yarn install",
-    "install-s": "cd server && yarn install",
-    "install": "yarn install-c && yarn install-s",
+    "install-c": "cd client && npm install",
+    "install-s": "cd server && npm install",
+    "install": "npm run install-c && npm run install-s",
     "up": "docker-compose up",
     "down": "docker-compose down",
-    "start-c": "cd client && yarn start",
-    "start-s": "cd server && yarn start",
-    "start": "yarn start-c",
-    "postinstall": "yarn start-s && yarn start-c"
+    "start-c": "cd client && npm run start",
+    "start-s": "cd server && npm run start",
+    "start": "npm run start-c",
+    "postinstall": "npm run start-s && cd client && npm run build"
   },
   "license": "ISC"
 }
