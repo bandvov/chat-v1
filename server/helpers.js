@@ -31,11 +31,8 @@ module.exports.addUserToRoom = async ({ chatroomId, user }) => {
   if (!foundChatRoom) {
     return { error: "Room does not exist" };
   }
-  const isMember = await Chatroom.find({
-    _id: chatroomId,
-    members: { $in: [user] },
-  });
-  await Chatroom.updateOne(
+
+  return await Chatroom.updateOne(
     { _id: chatroomId },
     {
       $addToSet: {
@@ -43,7 +40,6 @@ module.exports.addUserToRoom = async ({ chatroomId, user }) => {
       },
     }
   );
-  return { isMember: isMember.length ? true : false };
 };
 
 module.exports.addContact = async ({ user, contact }) => {
@@ -68,4 +64,12 @@ module.exports.addContact = async ({ user, contact }) => {
   );
   await chatroom.save();
   return { chatroom };
+};
+
+module.exports.checkIsMember = async ({ chatroomId, userId }) => {
+  const isMember = await Chatroom.find({
+    _id: chatroomId,
+    members: { $in: [userId] },
+  });
+  return { isMember: isMember.length ? true : false };
 };

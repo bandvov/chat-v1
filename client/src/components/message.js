@@ -9,8 +9,7 @@ const Message = ({ message, userId, key, top }) => {
     (ref?.current?.offsetTop > top && ref?.current?.offsetTop < top + 130 * 3) ||
     false;
   const handler = () => {
-    console.log("top", "mes");
-    console.log(top, ref.current.offsetTop);
+
   };
 
   return (

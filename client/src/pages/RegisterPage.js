@@ -9,7 +9,7 @@ import { ROUTES, PATH } from "../configs/routes";
 const RegisterPage = ({ history }) => {
   const onFinish = async (userData) => {
     await axios
-      .post(PATH + process.env.PORT + ROUTES.register, userData)
+      .post(PATH + ROUTES.register, userData)
       .then((res) => {
         notification.success({
           message: res.data.message,
