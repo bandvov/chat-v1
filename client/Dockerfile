@@ -4,10 +4,11 @@ WORKDIR /client
 
 COPY package.json .
 
-RUN yarn install
+RUN npm install
 
+RUN npm run build
 COPY . .
 
 EXPOSE 8000
 
-CMD ["yarn","start"]
+CMD ["npm","run","start"]

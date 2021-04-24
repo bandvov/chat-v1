@@ -1,13 +1,11 @@
 FROM node:latest
 
-WORKDIR /server
-
 COPY package.json .
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 
 EXPOSE 5000
 
-CMD ["yarn","start"]
+CMD ["npm","run","start"]

@@ -16,7 +16,7 @@ services:
     container_name: server
     restart: always
     build:
-      context: ./server
+      context: ./
     env_file:
       - .env
     ports:

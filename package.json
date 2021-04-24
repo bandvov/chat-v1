@@ -18,14 +18,28 @@
   ],
   "scripts": {
     "install-c": "cd client && npm install",
-    "install-s": "cd server && npm install",
-    "install": "npm run install-c && npm run install-s",
     "up": "docker-compose up",
     "down": "docker-compose down",
     "start-c": "cd client && npm run start",
-    "start-s": "cd server && npm run start",
-    "start": "npm run start-c",
-    "postinstall": "npm run start-s && cd client && npm run build"
+    "start": "node server.js",
+    "postinstall": "cd client && npm install && npm run build"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.2",
+    "nodejs": "^0.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1",
+    "sha256": "^0.2.0",
+    "socket.io": "^4.0.1"
+  },
+  "devDependencies": {
+    "gitmoji-cli": "^3.3.1",
+    "ts-node-dev": "^1.1.6"
+  }
 }
